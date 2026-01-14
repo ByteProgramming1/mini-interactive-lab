@@ -1,0 +1,9 @@
+services:
+  web:
+    build: .
+    image: minilab-web:latest
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
