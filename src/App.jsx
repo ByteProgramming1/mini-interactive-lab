@@ -102,10 +102,8 @@ export default function MiniLabPlatform() {
 
             <div className="flex-1 flex overflow-hidden">
                 <main className="flex-1 flex bg-slate-50 overflow-hidden">
-                    {/* Barra lateral: permite cambiar de nivel sin volver a home */}
                     <LevelSidebar levels={LEVELS} currentId={currentLevel?.id} onSelect={selectLevel} />
 
-                    {/* Contenido principal dividido en código y resultado */}
                     <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
                         <section className="flex-1 flex flex-col border-r border-slate-200">
                             <div className="h-12 flex items-center justify-between px-6 bg-white border-b border-slate-200">
@@ -115,8 +113,10 @@ export default function MiniLabPlatform() {
                                 </div>
                             </div>
                             <div className="flex-1 flex flex-col p-6 overflow-hidden">
-                                <div className="bg-slate-100 p-4 rounded-xl mb-4">
-                                    <p className="text-sm text-slate-700 leading-relaxed">{currentLevel?.instruction}</p>
+                                <div className="bg-amber-50 border-l-4 border-amber-300 p-4 rounded-xl mb-4">
+                                    <p className="text-sm text-slate-900 font-bold leading-relaxed">
+                                        {currentLevel?.instruction}
+                                    </p>
                                 </div>
                                 <CodeEditor code={code} onChange={setCode} accent={currentLevel?.color} />
                                 {error && (
@@ -134,7 +134,16 @@ export default function MiniLabPlatform() {
                                     <h2 className="font-bold text-sm tracking-tight uppercase">Resultado</h2>
                                 </div>
                             </div>
-                            <OutputPanel output={output} consoleLog={consoleLog} />
+
+                            <div className="flex-1 flex flex-col overflow-hidden p-6">
+                                {output == null && !consoleLog && !error ? (
+                                    <div className="flex-1 flex items-center justify-center text-center text-slate-500 italic px-6">
+                                        Pulsa <span className="font-bold text-slate-700 mx-1">Ejecutar</span> para ver el resultado
+                                    </div>
+                                ) : (
+                                    <OutputPanel output={output} consoleLog={consoleLog} />
+                                )}
+                            </div>
                         </section>
                     </div>
                 </main>

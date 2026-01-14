@@ -1,10 +1,8 @@
 import { CheckCircle, XCircle } from "lucide-react";
 
 export const OutputPanel = ({ output, consoleLog }) => {
-    if (!output) return null;
-
     const renderOutput = () => {
-        switch (output.type) {
+        switch (output?.type) {
             case 'color':
                 return (
                     <div className="relative group">
@@ -107,11 +105,13 @@ export const OutputPanel = ({ output, consoleLog }) => {
     };
 
     return (
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col h-full">
             <div className="flex-1 flex items-center justify-center p-8 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px] bg-slate-50/30">
                 {renderOutput()}
             </div>
-            <div className="h-32 border-t border-slate-200 bg-slate-900 p-4 font-mono text-xs overflow-y-auto">
+
+            {/* Consola */}
+            <div className="h-32 border border-slate-200 bg-slate-900 p-4 font-mono text-xs overflow-y-auto rounded-lg">
                 <p className="text-slate-400 mb-1">// Salida de consola</p>
                 {consoleLog && (
                     <div className="text-green-400 flex items-start gap-2">
