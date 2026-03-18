@@ -46,7 +46,7 @@ export const CodeEditor = ({ code, onChange, accent = "#2563EB" }) => {
         </div>
       </div>
 
-      <div className="flex flex-1 relative font-mono text-sm bg-slate-50/30">
+      <div className="flex flex-1 min-h-0 relative font-mono text-sm bg-slate-50/30">
         <div
           className="w-14 text-slate-500 flex flex-col items-center pt-4 select-none border-r"
           style={{
@@ -66,7 +66,7 @@ export const CodeEditor = ({ code, onChange, accent = "#2563EB" }) => {
         </div>
 
         <textarea
-          className="flex-1 bg-transparent border-none focus:ring-0 text-slate-900 p-4 resize-none leading-relaxed outline-none"
+          className="flex-1 min-h-0 overflow-y-auto bg-transparent border-none focus:ring-0 text-slate-900 p-4 resize-none leading-relaxed outline-none"
           spellCheck="false"
           value={code}
           onChange={(e) => onChange(e.target.value)}

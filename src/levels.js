@@ -152,5 +152,93 @@ console.log(saludar("Estudiante"));`,
         return null;
       }
     }
+  },
+  7: {
+    id: 7,
+    title: "Reto Final",
+    icon: "Trophy",
+    color: "#6366F1",
+    description: "Integra todo lo aprendido: arrays, objetos, funciones y condicionales para construir un sistema de evaluación de estudiantes.",
+    instruction: `Un arreglo guarda varios valores en orden. Cada valor tiene una posición que empieza en 0:\n\n | notas = [90, 85, 92]  →  notas[0] es 90, notas[1] es 85, notas[2] es 92 | \n\n Un bucle "for" recorre esas posiciones una por una:\n| for (let i = 0; i < notas.length; i++) { }\n→ i | empieza en 0 y sube hasta llegar al final del arreglo.\n\nRETO: dentro del for, usa i para acceder a cada nota y sumarla al acumulador.`,
+    initialCode: `// RETO FINAL: Sistema de evaluación de estudiantes
+// Completa la función y ajusta los datos para pasar el reto
+
+const estudiantes = [
+  { nombre: "Ana",    notas: [90, 85, 92] },
+  { nombre: "Luis",   notas: [60, 55, 70] },
+  { nombre: "María",  notas: [40, 35, 50] }
+];
+
+function evaluarEstudiante(estudiante) {
+  let suma = 0;
+  for (let i = 0; i < estudiante.notas.length; i++) {
+    // TODO: suma cada nota al acumulador PISTA usa estudiante.notas[i] para acceder a cada nota
+  }
+
+  const promedio = suma / estudiante.notas.length;
+
+  let categoria;
+  if (promedio >= 80) {
+    categoria = ""; // ¿Que categoría corresponde aquí? (Pista: es la mejor)
+  } else if (promedio >= 60) {
+    categoria = "";  // Esta es la categoría intermedia, ¿cómo se llama?
+  } else {
+    categoria = ""; // ¿Y esta? Es la categoría para los promedios más bajos.
+  }
+
+  return { nombre: estudiante.nombre, promedio, categoria };
+}
+
+const resultados = estudiantes.map(evaluarEstudiante);
+console.log(resultados);`,
+
+    run: (code, setOutput, setError) => {
+      try {
+        const wrappedCode = `
+        ${code}
+        return {
+          resultados: typeof resultados !== 'undefined' ? resultados : null,
+          totalEstudiantes: typeof estudiantes !== 'undefined' ? estudiantes.length : 0
+        };
+      `;
+
+        const runUserCode = new Function(wrappedCode);
+        const { resultados, totalEstudiantes } = runUserCode();
+
+        if (!resultados || !Array.isArray(resultados)) {
+          throw new Error("'resultados' debe ser un array. ¿Completaste el .map()?");
+        }
+
+        // Validar estructura de cada resultado
+        resultados.forEach((r, i) => {
+          if (typeof r.nombre === 'undefined') throw new Error(`El objeto en índice ${i} no tiene 'nombre'.`);
+          if (typeof r.promedio === 'undefined') throw new Error(`El objeto en índice ${i} no tiene 'promedio'.`);
+          if (typeof r.categoria === 'undefined') throw new Error(`El objeto en índice ${i} no tiene 'categoria'.`);
+        });
+
+        const aprobados = resultados.filter(r => r.categoria !== "Reprobado").length;
+        const promedioGeneral = (
+            resultados.reduce((acc, r) => acc + r.promedio, 0) / resultados.length
+        ).toFixed(1);
+
+        setOutput({
+          type: 'students',
+          items: resultados.map(r => ({
+            ...r,
+            promedio: typeof r.promedio === 'number' ? r.promedio.toFixed(1) : r.promedio
+          })),
+          resumen: `Promedio general: ${promedioGeneral} · Aprobados: ${aprobados} de ${totalEstudiantes}`
+        });
+
+        setError(null);
+
+        const log = resultados.map(r => `${r.nombre}: ${r.promedio} → ${r.categoria}`).join('\n');
+        return log;
+
+      } catch (err) {
+        setError(err.message);
+        return null;
+      }
+    }
   }
 };

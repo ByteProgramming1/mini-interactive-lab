@@ -99,6 +99,38 @@ export const OutputPanel = ({ output, consoleLog }) => {
                     </div>
                 );
 
+            case 'students':
+                return (
+                    <div className="w-full max-w-xl flex flex-col gap-3">
+                        <div className="flex items-center justify-between mb-1">
+                            <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">Resultados</p>
+                            <span className="text-xs bg-blue-100 text-blue-700 font-bold px-2 py-1 rounded-full">
+                              {output.items?.length} estudiantes
+                            </span>
+                        </div>
+                        {(output.items || []).map((est, i) => {
+                            const color =
+                                est.categoria === "Excelente" ? "emerald" :
+                                    est.categoria === "Aprobado"  ? "blue" : "rose";
+                            return (
+                                <div key={i} className={`rounded-xl border border-${color}-200 bg-${color}-50 p-4 flex items-center justify-between`}>
+                                    <div>
+                                        <p className={`font-bold text-${color}-900`}>{est.nombre}</p>
+                                        <p className={`text-xs text-${color}-600 mt-0.5`}>Promedio: <span className="font-bold">{est.promedio}</span></p>
+                                    </div>
+                                    <span className={`text-xs font-bold px-3 py-1 rounded-full bg-${color}-100 text-${color}-700`}>
+                                      {est.categoria}
+                                    </span>
+                                </div>
+                            );
+                        })}
+                        {output.resumen && (
+                            <div className="mt-2 rounded-lg bg-slate-100 border border-slate-200 p-3 text-sm text-slate-600">
+                                {output.resumen}
+                            </div>
+                        )}
+                    </div>
+                );
             default:
                 return null;
         }

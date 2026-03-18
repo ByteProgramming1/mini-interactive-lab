@@ -58,14 +58,6 @@ Before you begin, ensure you have Docker installed:
     cd mini-interactive-lab
     ```
 
-2. **Set up environment variables**
-
-    ```bash
-    cp .env.example .env
-    ```
-
-   Edit the `.env` file with your local configuration. Ask a team member for the required credentials if needed.
-
 <br>
 
 ## 🏃 Running the Project
